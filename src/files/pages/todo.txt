@@ -1,0 +1,108 @@
+
+Hero Section
+
+Featured Services
+
+Haircut
+
+Hair Color
+
+Makeup
+
+Facial
+
+Nail Art
+
+
+Why Choose Us
+
+Professional stylists
+
+Hygiene & comfort
+
+High-quality products
+
+Top Stylists
+
+Stylist photo + speciality + rating
+
+How Booking Works (3 steps)
+
+Choose service
+
+Select date & time
+
+Confirm & pay
+
+Customer Reviews
+
+Footer
+
+Contact
+
+Address
+
+Social links
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ecommerce
+    backend
+        middleware
+            verifyPath.js
+            verifyToken.js
+        models
+            Message.js
+            Product.js
+            User.js
+        routes
+            adminRoutes.js
+            cartRoutes.js
+            messageRoutes.js
+            productRoutes.js
+            signinRoutes.js
+            signoutRoutes.js
+            SignUpRoutes.js
+            UserProRoutes.js
+            user.js
+        server.js
+    public
+    src    
+        files
+            pages
+                images
+                        images
+                styles
+                        css files
+                pages files
+                    navbar.jsx
+        app.js
+        index.js
+
+beauityverse
+    public
+    src
+        files
+            pages
+        app.js
