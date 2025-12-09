@@ -1,6 +1,7 @@
 /* HeroSection.css */
 .hero-section {
-    min-height: 100vh;
+    height: fit-content;
+    /* min-height: 100vh; */
     margin-top: 70px;
     position: relative;
     display: flex;
@@ -8,6 +9,7 @@
     justify-content: center;
     overflow: hidden;
     padding: 30px 0px;
+    /* background-color: red; */
 }
 
 /* Background Image */
@@ -39,7 +41,6 @@
 
 .hero-badge-hero-container {
     width: 100%;
-    /* background-color: teal; */
     z-index: 2;
     display: flex;
     flex-direction: column;
