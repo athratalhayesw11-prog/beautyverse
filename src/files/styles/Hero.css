@@ -71,8 +71,6 @@
 
 .hero-content {
     width: 50%;
-    /* max-width: 600px; */
-    /* text-align: center; */
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -301,6 +299,16 @@
 
 
 
+.hero-cards::-webkit-scrollbar {
+    height: 3px;
+}
+
+.hero-cards::-webkit-scrollbar-thumb {
+    background: #393939;
+    border-radius: 10px;
+}
+
+
 
 @media (max-width: 1000px) {
     .hero-container {
@@ -367,6 +375,15 @@
 }
 
 @media (max-width: 650px) {
+
+    .hero-section {
+        padding: 20px 0px;
+    }
+
+    .hero-badge {
+        margin-bottom: 10px;
+    }
+
     .hero-container {
         width: 100%;
         flex-direction: column;
@@ -397,7 +414,6 @@
         min-width: 100px !important;
         flex-shrink: 0 !important;
         padding: 5px 6px 5px 5px;
-        /* border-radius: 15px; */
     }
 
     .card-icon {
@@ -408,6 +424,10 @@
 
     .hero-buttons {
         margin-bottom: 10px;
+    }
+
+    .hero-stats {
+        margin-top: 25px;
     }
 }
 
