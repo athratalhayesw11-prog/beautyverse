@@ -5,5 +5,51 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* test athra */
-/* test2 */
+/* # featureservices + featuresection */
+.services-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.badge-icon {
+  font-size: 1rem;
+}
+
+.services-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.services-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.services-subtitle {
+  font-size: 1.1rem;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}

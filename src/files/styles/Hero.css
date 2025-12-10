@@ -85,7 +85,7 @@
 
 
 .badge-text {
-    background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+    background: linear-gradient(135deg, #ffbf59 0%, #0099ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -125,7 +125,10 @@
 /* Buttons */
 .hero-buttons {
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
+    /* overflow: hidden; */
     /* margin-bottom: 3rem; */
 }
 
@@ -460,8 +463,13 @@
     }
 
     .hero-buttons {
-        flex-direction: column;
+        /* flex-direction: column; */
+        /* background-color: red; */
     }
+    .hero-buttons span i {
+        display: none;
+    }
+
 
     .hero-primary-btn {
         font-size: 15px;
@@ -486,3 +494,7 @@
         display: none;
     }
 }
+
+
+
+/* ok */

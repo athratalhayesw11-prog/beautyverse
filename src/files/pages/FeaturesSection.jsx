@@ -45,22 +45,26 @@ const FeaturesSection = () => {
     return (
         <section className="features-section" id="services">
             <div className="features-container">
-                {/* Section Header */}
-                <div className="features-header">
-                    <div className="section-badge">Our Features</div>
-                    <h2 className="section-title">
-                        Why Choose <span className="highlight">BeautyVerse</span>
+                <div className="services-header">
+                    <div className="services-badge">
+                        <span className="badge-icon">✨</span>
+                        Our Features
+                    </div>
+
+                    <h2 className="services-title">
+                        Why Choose <span className="title-gradient">BeautyVerse</span>
                     </h2>
-                    <p className="section-subtitle">
+
+                    <p className="services-subtitle">
                         We combine luxury with innovation to provide the ultimate beauty experience.
                     </p>
                 </div>
 
-                {/* Features Grid */}
+
                 <div className="features-grid">
                     {features.map((feature, index) => (
-                        <div className="feature-card" key={index}>
-                            <div className={`feature-icon-container ${feature.gradient}`}>
+                        <div className={`feature-card ${feature.gradient}`} key={index}>
+                            <div className="feature-icon-container">
                                 <span className="feature-icon">{feature.icon}</span>
                             </div>
                             <h3 className="feature-title">{feature.title}</h3>
@@ -70,7 +74,8 @@ const FeaturesSection = () => {
                     ))}
                 </div>
 
-                
+
+
             </div>
         </section>
     );
