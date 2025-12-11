@@ -44,39 +44,37 @@ const FeaturesSection = () => {
 
     return (
         <section className="features-section" id="services">
-            <div className="features-container">
-                <div className="services-header">
-                    <div className="services-badge">
-                        <span className="badge-icon">✨</span>
-                        Our Features
-                    </div>
-
-                    <h2 className="services-title">
-                        Why Choose <span className="title-gradient">BeautyVerse</span>
-                    </h2>
-
-                    <p className="services-subtitle">
-                        We combine luxury with innovation to provide the ultimate beauty experience.
-                    </p>
+            <div className="services-header">
+                <div className="services-badge">
+                    <span className="badge-icon">✨</span>
+                    Our Features
                 </div>
 
+                <h2 className="services-title">
+                    Why Choose <span className="title-gradient">BeautyVerse</span>
+                </h2>
 
-                <div className="features-grid">
-                    {features.map((feature, index) => (
-                        <div className={`feature-card ${feature.gradient}`} key={index}>
-                            <div className="feature-icon-container">
-                                <span className="feature-icon">{feature.icon}</span>
-                            </div>
-                            <h3 className="feature-title">{feature.title}</h3>
-                            <p className="feature-description">{feature.description}</p>
-                            <div className="feature-hover-effect"></div>
-                        </div>
-                    ))}
-                </div>
-
-
-
+                <p className="services-subtitle">
+                    We combine luxury with innovation to provide the ultimate beauty experience.
+                </p>
             </div>
+
+
+            <div className="features-grid">
+                {features.map((feature, index) => (
+                    <div className={`feature-card ${feature.gradient}`} key={index}>
+                        <div className="feature-icon-container">
+                            <span className="feature-icon">{feature.icon}</span>
+                        </div>
+                        <h3 className="feature-title">{feature.title}</h3>
+                        <p className="feature-description">{feature.description}</p>
+                        <div className="feature-hover-effect"></div>
+                    </div>
+                ))}
+            </div>
+
+
+
         </section>
     );
 };

@@ -1,29 +1,20 @@
 /* FeaturesSection.css */
 .features-section {
-    padding: 30px 2rem;
+    width: 100%;
+    padding: 30px 10px;
     background: white;
     position: relative;
     overflow: hidden;
 }
 
-.features-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 .features-grid {
-    /* display: grid;
-
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    /* margin-bottom: 4rem; */
 }
 
-/* Feature Card */
 .feature-card {
     width: 340px;
     background: #f8fafc;
@@ -86,8 +77,6 @@
     background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
 }
 
-
-/* Card Content */
 .feature-title {
     font-size: 1.3rem;
     font-weight: 700;
@@ -96,13 +85,11 @@
 }
 
 .feature-description {
-    /* max-width: 250px; */
     color: #718096;
     line-height: 1.6;
     font-size: 0.95rem;
 }
 
-/* Hover Effect */
 .feature-hover-effect {
     position: absolute;
     top: 0;
@@ -120,10 +107,9 @@
     opacity: 0.05;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 650px) {
     .features-section {
-        padding: 3rem 1rem;
+        padding: 20px 10px;
     }
 }
 
@@ -135,5 +121,12 @@
 
     .feature-icon {
         font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .feature-card {
+        width: 100%;
     }
 }

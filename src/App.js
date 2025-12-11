@@ -5,6 +5,7 @@ import FeaturesSection from './files/pages/FeaturesSection';
 import Hero from './files/pages/Hero';
 import Services from './files/pages/Services';
 import PopUp from './files/pages/PopUp';
+import TopStylist from './files/pages/TopStylist';
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -17,7 +18,7 @@ function App() {
       // Auto hide after 5 seconds
       const hideTimer = setTimeout(() => {
         setShowPopup(false);
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(hideTimer);
 
@@ -35,7 +36,9 @@ function App() {
       <PopUp isVisible={showPopup} onClose={() => setShowPopup(false)} />
 
       <Services />
+      <TopStylist />
       <FeaturesSection />
+      
     </div>
   );
 }
