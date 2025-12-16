@@ -43,34 +43,16 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* .category-btn .btn-text {
-    position: relative;
-    z-index: 1;
-} */
+.category-btn:hover {
+    background: #dfdfdf;
 
-.category-btn .btn-underline {
-    /* position: absolute; */
-    /* bottom: 0; */
-    /* left: 0; */
-    /* width: 0; */
-    /* height: 2px; */
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-    /* transition: width 0.3s ease; */
 }
-
-/* .category-btn:hover .btn-underline {
-    width: 100%;
-} */
 
 .category-btn.active {
     /* color: #667eea; */
     background: #dfdfdf;
     /* font-weight: 600; */
 }
-
-/* .category-btn.active .btn-underline {
-    width: 100%;
-} */
 
 .services-grid {
     display: flex;

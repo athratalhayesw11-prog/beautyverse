@@ -5,14 +5,20 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* # featureservices + featuresection */
+/* # services + featuresection + topstylist */
+.services-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
 .services-badge {
+  height: 40px;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   background: rgba(102, 126, 234, 0.1);
   color: #667eea;
-  padding: 0.6rem 1.5rem;
+  padding: 0rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
   font-size: 0.9rem;
@@ -20,15 +26,12 @@
   margin-bottom: 1rem;
   border: 1px solid rgba(102, 126, 234, 0.2);
   backdrop-filter: blur(10px);
+  overflow: hidden;
 }
 
 .badge-icon {
+  margin-bottom: 4px;
   font-size: 1rem;
-}
-
-.services-header {
-  text-align: center;
-  margin-bottom: 25px;
 }
 
 .services-title {
@@ -39,8 +42,20 @@
   letter-spacing: -0.5px;
 }
 
+.top-stylists .services-title {
+  color: #ffffff;
+}
+
+
 .title-gradient {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.top-stylists .title-gradient {
+  background: linear-gradient(235deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

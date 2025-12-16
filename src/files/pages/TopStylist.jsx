@@ -1,8 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../styles/TopStylist.css';
+import left from "../images/left.png";
+import right from "../images/right.png";
 
 const TopStylist = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeDots, setActiveDots] = useState([0]);
+    const [dotsCount, setDotsCount] = useState(3);
+    const [cardWidth, setCardWidth] = useState(303);
+    const dotsCountRef = useRef(dotsCount);
+    const cardWidthRef = useRef(cardWidth);
+    const cardGapRef = useRef(10);
     const stylistsRef = useRef(null);
 
     const stylists = [
@@ -87,22 +94,103 @@ const TopStylist = () => {
             description: "Volume & hybrid lash expert"
         }
     ];
+    useEffect(() => {
+        dotsCountRef.current = dotsCount;
+    }, [dotsCount]);
 
-    const handleNext = () => {
-        if (stylistsRef.current) {
-            const scrollAmount = stylistsRef.current.clientWidth;
-            stylistsRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-        setActiveIndex(prev => (prev + 1) % stylists.length);
+    useEffect(() => {
+        cardWidthRef.current = cardWidth;
+    }, [cardWidth]);
+
+    useEffect(() => {
+        const updateResponsiveValues = () => {
+            // Update card width based on screen size
+            if (window.innerWidth <= 420) {
+                setCardWidth(280); // From CSS @media (max-width: 420px)
+            } else {
+                setCardWidth(303); // From default CSS
+            }
+
+            // Update dots count based on screen size
+            if (window.innerWidth <= 600) {
+                setDotsCount(8);
+            } else {
+                setDotsCount(3);
+            }
+        };
+
+        updateResponsiveValues();
+        window.addEventListener("resize", updateResponsiveValues);
+
+        return () => window.removeEventListener("resize", updateResponsiveValues);
+    }, []);
+
+    // Handle manual scroll tracking
+    const handleScroll = () => {
+        if (!stylistsRef.current) return;
+
+        const carousel = stylistsRef.current;
+        const scrollLeft = carousel.scrollLeft;
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+        if (maxScroll <= 0) return;
+
+        const progress = scrollLeft / maxScroll;
+        const totalDots = dotsCountRef.current;
+        const step = 1 / totalDots;
+
+        const activeIndex = Math.min(
+            totalDots - 1,
+            Math.floor(progress / step)
+        );
+
+        setActiveDots([activeIndex]);
     };
 
-    const handlePrev = () => {
-        if (stylistsRef.current) {
-            const scrollAmount = -stylistsRef.current.clientWidth;
-            stylistsRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    // Initialize scroll event listener
+    useEffect(() => {
+        const carousel = stylistsRef.current;
+        if (carousel) {
+            carousel.addEventListener('scroll', handleScroll);
+            // Trigger initial calculation
+            handleScroll();
         }
-        setActiveIndex(prev => (prev - 1 + stylists.length) % stylists.length);
+
+        return () => {
+            if (carousel) {
+                carousel.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, []);
+
+    // Handle navigation arrows
+    const handlePrevClick = () => {
+        if (!stylistsRef.current) return;
+
+        const carousel = stylistsRef.current;
+        const scrollAmount = cardWidthRef.current + cardGapRef.current;
+
+        const newScroll = Math.max(0, carousel.scrollLeft - scrollAmount);
+        carousel.scrollTo({
+            left: newScroll,
+            behavior: 'smooth'
+        });
     };
+
+    const handleNextClick = () => {
+        if (!stylistsRef.current) return;
+
+        const carousel = stylistsRef.current;
+        const scrollAmount = cardWidthRef.current + cardGapRef.current;
+
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        const newScroll = Math.min(maxScroll, carousel.scrollLeft + scrollAmount);
+        carousel.scrollTo({
+            left: newScroll,
+            behavior: 'smooth'
+        });
+    };
+
 
     const handleBookStylist = (stylist) => {
         alert(`Booking appointment with ${stylist.name} - ${stylist.specialty}`);
@@ -110,125 +198,104 @@ const TopStylist = () => {
 
     return (
         <section className="top-stylists" id="stylists">
-            <div className="stylists-container">
-                {/* Header */}
-                <div className="stylists-header">
-                    <div className="section-badge">
-                        <span className="badge-icon">⭐</span>
-                        Our Experts
-                    </div>
-                    <h2 className="section-title">
-                        Meet Our <span className="title-highlight">Top Stylists</span>
-                    </h2>
-                    <p className="section-subtitle">
-                        Experience beauty transformation with our certified professionals
-                    </p>
+            {/* Header */}
+            <div className="services-header">
+                <div className="services-badge">
+                    <span className="badge-icon">⭐</span>
+                    Our Experts
                 </div>
+                <h2 className="services-title">
+                    Meet Our <span className="title-gradient">Top Stylists</span>
+                </h2>
+                <p className="services-subtitle">
+                    Experience beauty transformation with our certified professionals
+                </p>
+            </div>
 
-                {/* Navigation Arrows */}
-                <div className="navigation-container">
-                    <button className="nav-arrow left-arrow" onClick={handlePrev}>
-                        <span className="arrow-icon">←</span>
-                    </button>
+            <div className="carousel-container">
+                <button
+                    className="nav-button prev-button"
+                    onClick={handlePrevClick}
+                    aria-label="Previous stylists"
+                >
+                    <img src={left} alt="" />
+                </button>
 
-                    {/* Stylists Carousel */}
-                    <div className="stylists-carousel" ref={stylistsRef}>
-                        {stylists.map((stylist) => (
-                            <div className="stylist-card" key={stylist.id}>
-                                {/* Profile Image */}
-                                <div className="profile-image-container">
-                                    <img
-                                        src={stylist.image}
-                                        alt={stylist.name}
-                                        className="profile-image"
-                                        loading="lazy"
-                                    />
-                                    <div className="experience-badge">
-                                        <span className="exp-icon">⭐</span>
-                                        {stylist.experience}
-                                    </div>
-                                    <div className="online-status"></div>
+                <div className="stylists-carousel" ref={stylistsRef}>
+                    {stylists.map((stylist) => (
+                        <div className="stylist-card" key={stylist.id}>
+                            <div className="profile-image-container">
+                                <img
+                                    src={stylist.image}
+                                    alt={stylist.name}
+                                    className="profile-image"
+                                    loading="lazy"
+                                />
+                                <div className="experience-badge">
+                                    <span className="exp-icon">⭐</span>
+                                    {stylist.experience}
                                 </div>
-
-                                {/* Stylist Info */}
-                                <div className="stylist-info">
-                                    <h3 className="stylist-name">{stylist.name}</h3>
-                                    <p className="stylist-description">{stylist.description}</p>
-
-                                    <div className="specialty-tag">
-                                        <span className="tag-icon">🎯</span>
-                                        {stylist.specialty}
-                                    </div>
-
-                                    {/* Rating */}
-                                    <div className="rating-container">
-                                        <div className="stars">
-                                            {[...Array(5)].map((_, i) => (
-                                                <span
-                                                    key={i}
-                                                    className={`star ${i < Math.floor(stylist.rating) ? 'filled' : ''}`}
-                                                >
-                                                    ★
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <div className="rating-text">
-                                            <span className="rating-number">{stylist.rating}</span>
-                                            <span className="rating-count">({stylist.totalRatings} reviews)</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Action Button */}
-                                    <button
-                                        className="book-stylist-btn"
-                                        onClick={() => handleBookStylist(stylist)}
-                                    >
-                                        <span className="book-icon">📅</span>
-                                        Book Stylist
-                                    </button>
-                                </div>
-
-                                {/* Card Decoration */}
-                                <div className="card-decoration"></div>
                             </div>
-                        ))}
-                    </div>
 
-                    <button className="nav-arrow right-arrow" onClick={handleNext}>
-                        <span className="arrow-icon">→</span>
-                    </button>
-                </div>
+                            <div className="stylist-info">
+                                <h3 className="stylist-name">{stylist.name}</h3>
+                                <p className="stylist-description">{stylist.description}</p>
 
-                {/* Dots Indicator */}
-                <div className="dots-indicator">
-                    {stylists.map((_, index) => (
-                        <button
-                            key={index}
-                            className={`dot ${index === activeIndex ? 'active' : ''}`}
-                            onClick={() => {
-                                if (stylistsRef.current) {
-                                    const cardWidth = 320; // Fixed card width + gap
-                                    stylistsRef.current.scrollTo({
-                                        left: index * cardWidth,
-                                        behavior: 'smooth'
-                                    });
-                                }
-                                setActiveIndex(index);
-                            }}
-                        />
+                                <div className="specialty-tag">
+                                    <span className="tag-icon">🎯</span>
+                                    {stylist.specialty}
+                                </div>
+
+                                <div className="rating-container">
+                                    <div className="stars">
+                                        {[...Array(5)].map((_, i) => (
+                                            <span
+                                                key={i}
+                                                className={`star ${i < Math.floor(stylist.rating) ? 'filled' : ''}`}
+                                            >
+                                                ★
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div className="rating-text">
+                                        <span className="rating-number">{stylist.rating}</span>
+                                        <span className="rating-count">({stylist.totalRatings} reviews)</span>
+                                    </div>
+                                </div>
+
+                                <button
+                                    className="book-stylist-btn"
+                                    onClick={() => handleBookStylist(stylist)}
+                                >
+                                    <span className="book-icon">📅</span>
+                                    Book Stylist
+                                </button>
+                            </div>
+                        </div>
                     ))}
                 </div>
 
-                {/* View All Button */}
-                <div className="view-all-container">
-                    <button className="view-all-btn">
-                        View All Stylists
-                        <span className="view-arrow">→</span>
-                    </button>
-                </div>
+                <button
+                    className="nav-button next-button"
+                    onClick={handleNextClick}
+                    aria-label="Next stylists"
+                >
+                    <img src={right} alt="" />
+                </button>
+            </div>
+
+            <div className="dots-indicator">
+                {Array.from({ length: dotsCount }).map((_, index) => (
+                    <button
+                        key={index}
+                        className={`dot ${activeDots[0] === index ? 'active' : ''}`}
+                        // onClick={() => handleDotClick(index)}
+                        aria-label={`Go to section ${index + 1}`}
+                    />
+                ))}
             </div>
         </section>
     );
 };
 
-export default TopStylist;
+export default TopStylist; 
