@@ -2,26 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../styles/TopStylist.css';
 import left from "../images/left.png";
 import right from "../images/right.png";
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Register ScrollTrigger plugin
-if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-}
 
 const TopStylist = () => {
     const [activeDots, setActiveDots] = useState([0]);
     const [dotsCount, setDotsCount] = useState(3);
-    const [cardWidth, setCardWidth] = useState(303);
     const dotsCountRef = useRef(dotsCount);
-    const cardWidthRef = useRef(cardWidth);
-    const cardGapRef = useRef(10);
     const stylistsRef = useRef(null);
-    const sectionRef = useRef(null);
-    const headerRef = useRef(null);
-    const carouselRef = useRef(null);
-    const dotsRef = useRef(null);
 
     const stylists = [
         {
@@ -110,20 +96,9 @@ const TopStylist = () => {
         dotsCountRef.current = dotsCount;
     }, [dotsCount]);
 
-    useEffect(() => {
-        cardWidthRef.current = cardWidth;
-    }, [cardWidth]);
 
     useEffect(() => {
-        const updateResponsiveValues = () => {
-            // Update card width based on screen size
-            if (window.innerWidth <= 420) {
-                setCardWidth(280); // From CSS @media (max-width: 420px)
-            } else {
-                setCardWidth(303); // From default CSS
-            }
-
-            // Update dots count based on screen size
+        const updateDots = () => {
             if (window.innerWidth <= 600) {
                 setDotsCount(8);
             } else {
@@ -131,63 +106,12 @@ const TopStylist = () => {
             }
         };
 
-        updateResponsiveValues();
-        window.addEventListener("resize", updateResponsiveValues);
+        updateDots();
+        window.addEventListener("resize", updateDots);
 
-        return () => window.removeEventListener("resize", updateResponsiveValues);
+        return () => window.removeEventListener("resize", updateDots);
     }, []);
 
-    // GSAP Animation on viewport entry
-    useEffect(() => {
-        if (!sectionRef.current) return;
-
-        // Create a timeline for the animation
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 80%", // Animation starts when top of element is 80% from top of viewport
-                end: "bottom 20%",
-                toggleActions: "play none none none", // Play once, no reverse, no reset
-                once: true, // Animation triggers only once
-                markers: false // Set to true for debugging
-            }
-        });
-
-        // Header animation
-        tl.from(headerRef.current, {
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        })
-            .from('.stylist-card', {
-                y: 60,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 0.6,
-                ease: "back.out(1.7)",
-                delay: 0.2
-            }, "-=0.3")
-            .from('.nav-button', {
-                scale: 0,
-                opacity: 0,
-                stagger: 0.2,
-                duration: 0.5,
-                ease: "elastic.out(1, 0.5)"
-            }, "-=0.4")
-            .from(dotsRef.current.children, {
-                scale: 0,
-                opacity: 0,
-                stagger: 0.1,
-                duration: 0.4,
-                ease: "back.out(1.7)"
-            }, "-=0.3");
-
-        // Cleanup function
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-        };
-    }, []);
 
     // Handle manual scroll tracking
     const handleScroll = () => {
@@ -200,7 +124,8 @@ const TopStylist = () => {
         if (maxScroll <= 0) return;
 
         const progress = scrollLeft / maxScroll;
-        const totalDots = dotsCountRef.current;
+
+        const totalDots = dotsCountRef.current; // 🔥 latest value
         const step = 1 / totalDots;
 
         const activeIndex = Math.min(
@@ -211,13 +136,14 @@ const TopStylist = () => {
         setActiveDots([activeIndex]);
     };
 
+
+
+
     // Initialize scroll event listener
     useEffect(() => {
         const carousel = stylistsRef.current;
         if (carousel) {
             carousel.addEventListener('scroll', handleScroll);
-            // Trigger initial calculation
-            handleScroll();
         }
 
         return () => {
@@ -227,12 +153,15 @@ const TopStylist = () => {
         };
     }, []);
 
+
     // Handle navigation arrows
     const handlePrevClick = () => {
         if (!stylistsRef.current) return;
 
         const carousel = stylistsRef.current;
-        const scrollAmount = cardWidthRef.current + cardGapRef.current;
+        const cardWidth = 300;
+        const gap = 20;
+        const scrollAmount = cardWidth + gap;
 
         const newScroll = Math.max(0, carousel.scrollLeft - scrollAmount);
         carousel.scrollTo({
@@ -245,7 +174,9 @@ const TopStylist = () => {
         if (!stylistsRef.current) return;
 
         const carousel = stylistsRef.current;
-        const scrollAmount = cardWidthRef.current + cardGapRef.current;
+        const cardWidth = 300;
+        const gap = 20;
+        const scrollAmount = cardWidth + gap;
 
         const maxScroll = carousel.scrollWidth - carousel.clientWidth;
         const newScroll = Math.min(maxScroll, carousel.scrollLeft + scrollAmount);
@@ -260,9 +191,9 @@ const TopStylist = () => {
     };
 
     return (
-        <section className="top-stylists" id="stylists" ref={sectionRef}>
+        <section className="top-stylists" id="stylists">
             {/* Header */}
-            <div className="services-header" ref={headerRef}>
+            <div className="services-header">
                 <div className="services-badge">
                     <span className="badge-icon">⭐</span>
                     Our Experts
@@ -275,7 +206,7 @@ const TopStylist = () => {
                 </p>
             </div>
 
-            <div className="carousel-container" ref={carouselRef}>
+            <div className="carousel-container">
                 <button
                     className="nav-button prev-button"
                     onClick={handlePrevClick}
@@ -284,7 +215,7 @@ const TopStylist = () => {
                     <img src={left} alt="" />
                 </button>
 
-                <div className="stylists-carousel" ref={stylistsRef}>
+                <div className="stylists-carousel" ref={stylistsRef} >
                     {stylists.map((stylist) => (
                         <div className="stylist-card" key={stylist.id}>
                             <div className="profile-image-container">
@@ -334,6 +265,7 @@ const TopStylist = () => {
                                     Book Stylist
                                 </button>
                             </div>
+
                         </div>
                     ))}
                 </div>
@@ -347,7 +279,7 @@ const TopStylist = () => {
                 </button>
             </div>
 
-            <div className="dots-indicator" ref={dotsRef}>
+            <div className="dots-indicator">
                 {Array.from({ length: dotsCount }).map((_, index) => (
                     <button
                         key={index}
